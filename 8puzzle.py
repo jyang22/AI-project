@@ -192,9 +192,8 @@ class EightPuzzle:
             return puzzle.adj_matrix == _goal_state
 
         stack = [self]
-        self.level = 1
         move_count = 0
-        self.level = 0
+        self.level = 1
         visited = [self.adj_matrix]
         print self.adj_matrix
         while stack:
