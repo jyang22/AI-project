@@ -177,7 +177,6 @@ class EightPuzzle:
                 return cur._generate_solution_path([]), move_count
 
             succ = cur._generate_moves()
-            print len(succ)
             for move in succ:
                 if move.adj_matrix not in visited:
                     stack.append(move)
