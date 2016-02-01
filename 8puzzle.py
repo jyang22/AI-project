@@ -201,7 +201,7 @@ class EightPuzzle:
             if is_solved(cur):
                 return cur._generate_solution_path([]), move_count
 
-            if cur.level > 22:
+            if cur.level > 4:
                 continue
 
             succ = cur._generate_moves()
@@ -212,6 +212,8 @@ class EightPuzzle:
                     visited.append(move.adj_matrix)
 
             move_count += 1
+        print "not solved"
+        return [], 0
 
 
     def shuffle(self, step_count):
@@ -322,8 +324,8 @@ def main():
     print "Solved with linear least squares exploring", count, "states"
     path, count = p.BFS()
     print "Solved with BFS-equivalent in", count, "moves"
-    path, count = p.DFS()
-    print "Solved with DFS-equivalent in", count, "moves"
+    # path, count = p.DFS()
+    # print "Solved with DFS-equivalent in", count, "moves"
     path, count = p.iterative_DFS()
     print "Solved with iterative DFS in", count, "moves"
 
