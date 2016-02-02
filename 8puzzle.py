@@ -165,24 +165,24 @@ class EightPuzzle:
         '''
         Uses depth first search to solve the problem
         '''
-        def is_solved(puzzle):
+        def is_solved(puzzle): #Function checks wether 8-Puzzle is in Goal State
             return puzzle.adj_matrix == _goal_state
 
         stack = [self]
-        move_count = 0
+        move_count = 0 
         visited = [self.adj_matrix]
         while stack:
-            cur = stack.pop()
-            if is_solved(cur):
+            cur = stack.pop() 
+            if is_solved(cur): #checks wether current state is goal state, if it is return solution path
                 return cur._generate_solution_path([]), move_count
 
-            succ = cur._generate_moves()
-            for move in succ:
+            succ = cur._generate_moves() #succ gets list of legal moves possible from current state
+            for move in succ: # Explores moves possible from current state and adds them to the visited list(also appends to stack) if not visited
                 if move.adj_matrix not in visited:
                     stack.append(move)
                     visited.append(move.adj_matrix)
 
-            move_count += 1
+            move_count += 1 #increase move counter
 
     def iterative_DFS(self):
         '''
@@ -195,7 +195,7 @@ class EightPuzzle:
         move_count = 0
         self.level = 1
         visited = [self.adj_matrix]
-        print self.adj_matrix
+        print (self.adj_matrix)
         while stack:
             cur = stack.pop()
             if is_solved(cur):
@@ -212,7 +212,7 @@ class EightPuzzle:
                     visited.append(move.adj_matrix)
 
             move_count += 1
-        print "not solved"
+        print ("not solved")
         return [], 0
 
 
@@ -306,28 +306,29 @@ def h_default(puzzle):
 def main():
     p = EightPuzzle()
     p.shuffle(20)
-    print "have shuffled"
-    print p
+    print ("have shuffled")
+    print (p)
 
     path, count = p.solve(h_default)
     path.reverse()
     for i in path: 
-        print i
+        print (i)
 
     path, count = p.solve(h_manhattan)
-    print "Solved with Manhattan distance exploring", count, "states"
+    print ("Solved with Manhattan distance exploring", count, "states")
     path, count = p.solve(h_manhattan_lsq)
-    print "Solved with Manhattan least squares exploring", count, "states"
+    print ("Solved with Manhattan least squares exploring", count, "states")
     path, count = p.solve(h_linear)
-    print "Solved with linear distance exploring", count, "states"
+    print ("Solved with linear distance exploring", count, "states")
     path, count = p.solve(h_linear_lsq)
-    print "Solved with linear least squares exploring", count, "states"
+    print ("Solved with linear least squares exploring", count, "states")
     path, count = p.BFS()
-    print "Solved with BFS-equivalent in", count, "moves"
+    print ("Solved with BFS-equivalent in", count, "moves")
     # path, count = p.DFS()
     # print "Solved with DFS-equivalent in", count, "moves"
     path, count = p.iterative_DFS()
-    print "Solved with iterative DFS in", count, "moves"
+    print ("Solved with iterative DFS in", count, "moves")
+
 
 if __name__ == "__main__":
     main()
