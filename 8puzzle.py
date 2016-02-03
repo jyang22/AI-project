@@ -165,7 +165,8 @@ class EightPuzzle:
         '''
         Uses depth first search to solve the problem
         '''
-        def is_solved(puzzle): #Function checks wether 8-Puzzle is in Goal State
+        # Function checks wether 8-Puzzle is in Goal State
+        def is_solved(puzzle): 
             return puzzle.adj_matrix == _goal_state
 
         stack = [self]
@@ -173,16 +174,20 @@ class EightPuzzle:
         visited = [self.adj_matrix]
         while stack:
             cur = stack.pop() 
-            if is_solved(cur): #checks wether current state is goal state, if it is return solution path
+            # checks wether current state is goal state, if it is return solution path
+            if is_solved(cur):
                 return cur._generate_solution_path([]), move_count
-
-            succ = cur._generate_moves() #succ gets list of legal moves possible from current state
-            for move in succ: # Explores moves possible from current state and adds them to the visited list(also appends to stack) if not visited
+            # succ gets list of legal moves possible from current state
+            succ = cur._generate_moves()
+             # Explores moves possible from current state and adds them to the 
+             # visited list(also appends to stack) if not visited
+            for move in succ:
                 if move.adj_matrix not in visited:
                     stack.append(move)
                     visited.append(move.adj_matrix)
 
-            move_count += 1 #increase move counter
+            # increase move counter
+            move_count += 1 
 
     def iterative_DFS(self):
         '''
@@ -192,16 +197,27 @@ class EightPuzzle:
             return puzzle.adj_matrix == _goal_state
 
         stack = [self]
+        next_level_stack = []
         move_count = 0
         self.level = 1
         visited = [self.adj_matrix]
+        max_level = 5
         print (self.adj_matrix)
-        while stack:
+        while True:
+            if not stack:
+                if max_level < 15:
+                    max_level += 5
+                    stack = next_level_stack
+                    next_level_stack = []
+                else:
+                    break
+
             cur = stack.pop()
             if is_solved(cur):
                 return cur._generate_solution_path([]), move_count
 
-            if cur.level > 4:
+            if cur.level > max_level:
+                next_level_stack.append(cur)
                 continue
 
             succ = cur._generate_moves()
@@ -212,6 +228,7 @@ class EightPuzzle:
                     visited.append(move.adj_matrix)
 
             move_count += 1
+
         print ("not solved")
         return [], 0
 
