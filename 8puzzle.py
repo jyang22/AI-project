@@ -176,13 +176,14 @@ class EightPuzzle:
             cur = stack.pop() 
             # checks wether current state is goal state, if it is return solution path
             if is_solved(cur):
-                return cur._generate_solution_path([]), move_count
+                return cur._generate_solution_path([]), cur.level
             # succ gets list of legal moves possible from current state
             succ = cur._generate_moves()
              # Explores moves possible from current state and adds them to the 
              # visited list(also appends to stack) if not visited
             for move in succ:
                 if move.adj_matrix not in visited:
+                    move.level = cur.level + 1
                     stack.append(move)
                     visited.append(move.adj_matrix)
 
@@ -214,7 +215,7 @@ class EightPuzzle:
 
             cur = stack.pop()
             if is_solved(cur):
-                return cur._generate_solution_path([]), move_count
+                return cur._generate_solution_path([]), cur.level
 
             if cur.level > max_level:
                 next_level_stack.append(cur)
