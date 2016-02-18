@@ -54,7 +54,7 @@ class EightPuzzle:
         # get row and column of the empty piece
         row, col = self.find(0)
         free = []
-        
+
         # find which pieces can move there
         if row > 0:
             free.append((row - 1, col))
@@ -150,9 +150,9 @@ class EightPuzzle:
         visited = [self.adj_matrix]
         while True:
             cur = queue.pop(0)      #Takes Next in Queue
-            if is_solved(cur):      
+            if is_solved(cur):
                 return cur._generate_solution_path([]), move_count
-            
+
             succ = cur._generate_moves()    #Assigns list of possible moves to succ
             for move in succ:               #Visits unexplored possible moves
                 if move.adj_matrix not in visited:
@@ -166,36 +166,24 @@ class EightPuzzle:
         Uses depth first search to solve the problem
         '''
         # Function that checks wether 8-Puzzle is in Goal State
-        def is_solved(puzzle): 
+        def is_solved(puzzle):
             return puzzle.adj_matrix == _goal_state
         #Initializing
         stack = [self]
-        move_count = 0 
+        move_count = 0
         visited = [self.adj_matrix]
         while stack:
-<<<<<<< HEAD
-            cur = stack.pop() 
-            # checks wether current state is goal state, if it is return solution path
-            if is_solved(cur):
-                return cur._generate_solution_path([]), cur.level
-            # succ gets list of legal moves possible from current state
-            succ = cur._generate_moves()
-             # Explores moves possible from current state and adds them to the 
-             # visited list(also appends to stack) if not visited
-            for move in succ:
-=======
             cur = stack.pop()   #Takes top of Stack
             if is_solved(cur):  # checks wether current state is goal state, if it is return solution path
-                return cur._generate_solution_path([]), move_count
+                return cur._generate_solution_path([]), cur.level
             succ = cur._generate_moves() # succ gets list of legal moves possible from current state
             for move in succ: # adds moves from succ to visited list(also appends to stack) if not visited
->>>>>>> origin/master
                 if move.adj_matrix not in visited:
-                    move.level = cur.level + 1
+                    move.level=cur.level+1
                     stack.append(move)
                     visited.append(move.adj_matrix)
 
-            move_count += 1  # increment move counter
+            cur.level += 1  # increment move counter
 
     def iterative_DFS(self):
         '''
@@ -221,15 +209,9 @@ class EightPuzzle:
                 else:
                     break
 
-<<<<<<< HEAD
-            cur = stack.pop()
-            if is_solved(cur):
-                return cur._generate_solution_path([]), cur.level
-=======
             cur = stack.pop()   #Cur gets top of stack
             if is_solved(cur):  #Check wether solved
-                return cur._generate_solution_path([]), move_count
->>>>>>> origin/master
+                return cur._generate_solution_path([]), cur.level
 
             if cur.level > max_level:
                 next_level_stack.append(cur)
@@ -242,7 +224,7 @@ class EightPuzzle:
                     stack.append(move)
                     visited.append(move.adj_matrix)
 
-            move_count += 1
+            cur.level += 1
 
         print ("not solved")
         return [], 0
@@ -253,7 +235,7 @@ class EightPuzzle:
             row, col = self.find(0)
             free = self._get_legal_moves()
             target = random.choice(free)
-            self.swap((row, col), target)            
+            self.swap((row, col), target)
             row, col = target
 
     def find(self, value):
@@ -266,7 +248,7 @@ class EightPuzzle:
             for col in range(3):
                 if self.adj_matrix[row][col] == value:
                     return row, col
-    
+
     def peek(self, row, col):
         """returns the value at the specified row and column"""
         return self.adj_matrix[row][col]
@@ -284,14 +266,14 @@ class EightPuzzle:
 
 def heur(puzzle, item_total_calc, total_calc):
     """
-    Heuristic template that provides the current and target position for each number and the 
+    Heuristic template that provides the current and target position for each number and the
     total function.
-    
+
     Parameters:
     puzzle - the puzzle
-    item_total_calc - takes 4 parameters: current row, target row, current col, target col. 
+    item_total_calc - takes 4 parameters: current row, target row, current col, target col.
     Returns int.
-    total_calc - takes 1 parameter, the sum of item_total_calc over all entries, and returns int. 
+    total_calc - takes 1 parameter, the sum of item_total_calc over all entries, and returns int.
     This is the value of the heuristic function
     """
     t = 0
@@ -302,7 +284,7 @@ def heur(puzzle, item_total_calc, total_calc):
             target_row = val // 3
 
             # account for 0 as blank
-            if target_row < 0: 
+            if target_row < 0:
                 target_row = 2
 
             t += item_total_calc(row, target_row, col, target_col)
@@ -343,7 +325,7 @@ def main():
 
     path, count = p.solve(h_default)
     path.reverse()
-    for i in path: 
+    for i in path:
         print (i)
 
     path, count = p.solve(h_manhattan)
@@ -356,12 +338,11 @@ def main():
     print ("Solved with linear least squares exploring", count, "states")
     path, count = p.BFS()
     print ("Solved with BFS-equivalent in", count, "moves")
-    # path, count = p.DFS()
-    # print "Solved with DFS-equivalent in", count, "moves"
+    path, count = p.DFS()
+    print "Solved with DFS-equivalent in", count, "moves"
     path, count = p.iterative_DFS()
     print ("Solved with iterative DFS in", count, "moves")
 
 
 if __name__ == "__main__":
     main()
-
